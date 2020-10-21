@@ -29,7 +29,7 @@ module.exports = (app) => {
     };
 
     // Send request and log result
-    const responses = await sessionClient.detectIntent(request);
+    let responses = await sessionClient.detectIntent(request);
     console.log('Detected intent');
     const result = responses[0].queryResult;
     console.log(`  Query: ${result.queryText}`);
@@ -40,7 +40,7 @@ module.exports = (app) => {
       console.log(`  No intent matched.`);
     }
 
-    res.send({ do: 'text query' });
+    res.send(result);
   });
 
   app.post('/api/df_event_query', (req, res) => {
