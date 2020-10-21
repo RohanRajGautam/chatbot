@@ -1,14 +1,22 @@
 const express = require('express')
 const bodyParser = require('body-parser');
+const config = require('./config/keys')
 
 const app = express();
+const PORT = process.env.PORT || 5000
+
+//Routes
+const dialogFlowRoutes = require('./routes/dialogFlowRoutes')
+
 
 app.use(bodyParser.json());
 
-require('./routes/dialogFlowRoutes')(app);
+app.get('/', (req, res) => {
+    res.send({hello: 'there'})
+})
 
+app.use(dialogFlowRoutes)
 
-
-const PORT = process.env.PORT || 5000
-
-app.listen(PORT)
+app.listen(PORT, () => {
+    console.log(`server started at port ${PORT}`);
+  });
