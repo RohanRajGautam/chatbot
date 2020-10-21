@@ -26,7 +26,7 @@ router.post('/api/df_event_query', async (req, res) => {
         const result = responses[0].queryResult;
         res.send(result);
     } catch (error) { 
-        console.log('ERROR: ', err);
+        console.log('ERROR: ', error);
         res.status(400).send("error")
     }
     
