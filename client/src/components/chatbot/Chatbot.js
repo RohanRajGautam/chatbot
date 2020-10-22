@@ -1,72 +1,85 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react';
+import axios from 'axios/index';
+
 import Message from './Message';
-// import Card from './Card';
 
+class Chatbot extends Component {
+  constructor(props) {
+    super(props);
 
-const Chatbot = () => {
-  const [messages, setMessages] = useState([]);
+    this.state = {
+      messages: [],
+    };
+  }
 
-  async df_text_query(text) {
+  async df_text_query(queryText) {
     let says = {
-        speaks: 'me',
-        msg: {
-            text: {
-                text: text
-            }
-        }
-    }
-    
-    setMessages({messages: [...messages, says]})
-    const res = await axios.post('/api/df_text_query', {text})
+      speaks: 'user',
+      msg: {
+        text: {
+          text: queryText,
+        },
+      },
+    };
+    this.setState({ messages: [...this.state.messages, says] });
+    const res = await axios.post('/api/df_text_query', { text: queryText });
 
-    for(let msg of res.data.fulfillmentMessages) {
+    for (let msg of res.data.fulfillmentMessages) {
       says = {
         speaks: 'bot',
-        msg
-      }
-      setMessages({messages: [...messages, says]})
+        msg: msg,
+      };
+      this.setState({ messages: [...this.state.messages, says] });
     }
   }
 
-  async df_event_query(event) {
-    const res = await axios.post('/api/df_event_query', {event});
+  async df_event_query(eventName) {
+    const res = await axios.post('/api/df_event_query', { event: eventName });
 
-    for(let msg of res.data.fulfillmentMessages){
+    for (let msg of res.data.fulfillmentMessages) {
       let says = {
-        speaks: 'me',
-        msg
-      }
-      setMessages({messages: [...messages, says]})
+        speaks: 'bot',
+        msg: msg,
+      };
+
+      this.setState({ messages: [...this.state.messages, says] });
     }
   }
 
-  renderMessages(stateMessages) {
-    if(stateMessages) {
-      return stateMessages.map((message, i) => {
-        return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
-      })
+  componentDidMount() {
+    this.df_event_query('Welcome');
+  }
+
+  renderMessages(returnedMessages) {
+    if (returnedMessages) {
+      return returnedMessages.map((message, i) => {
+        return (
+          <Message
+            key={i}
+            speaks={message.speaks}
+            text={message.msg.text.text}
+          />
+        );
+      });
     } else {
       return null;
     }
   }
 
-  return (
-    <div style={{ height: 400, width: 400, float: 'right' }}>
+  render() {
+    return (
+      <div style={{ height: 400, width: 400, float: 'right' }}>
         <div
-        id='chatbot'
-        style={{
-            height: '100%',
-            width: '100%',
-            overflow: 'auto',
-        }}
+          id='chatbot'
+          style={{ height: '100%', width: '100%', overflow: 'auto' }}
         >
-        <h2>Chatbot</h2>
-        {renderMessages(messages)}
-        <input type='text' />
+          <h2>Chatbot</h2>
+          {this.renderMessages(this.state.messages)}
+          <input type='text' />
         </div>
-    </div>
-  )
-};
+      </div>
+    );
+  }
+}
 
 export default Chatbot;
