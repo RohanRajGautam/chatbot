@@ -4,6 +4,7 @@ import axios from 'axios/index';
 import Message from './Message';
 
 class Chatbot extends Component {
+  messageEnd;
   constructor(props) {
     super(props);
 
@@ -52,6 +53,10 @@ class Chatbot extends Component {
     this.df_event_query('Welcome');
   }
 
+  componentDidUpdate() {
+    this.messageEnd.scrollIntoView({ behavior: 'smooth' });
+  }
+
   renderMessages(returnedMessages) {
     if (returnedMessages) {
       return returnedMessages.map((message, i) => {
@@ -84,6 +89,12 @@ class Chatbot extends Component {
         >
           <h2>Chatbot</h2>
           {this.renderMessages(this.state.messages)}
+          <div
+            ref={(el) => {
+              this.messageEnd = el;
+            }}
+            style={{ float: 'left', clear: 'both' }}
+          ></div>
           <input type='text' onKeyPress={this._handleInputKeyPress} />
         </div>
       </div>
