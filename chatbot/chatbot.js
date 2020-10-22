@@ -15,13 +15,13 @@ const sessionClient = new dialogflow.SessionsClient({ projectID, credentials });
 
 module.exports = {
   textQuery: async function (text, parameters = {}) {
-    let sessionPath = sessionClient.sessionPath(projectID, sessionID);
+    let sessionPath = sessionClient.sessionPath(projectID, sessionID + userID);
     const request = {
       session: sessionPath,
       queryInput: {
         text: {
           text: text,
-          languageCode: languageCode
+          languageCode: languageCode,
         },
       },
       queryParams: {
@@ -37,14 +37,14 @@ module.exports = {
   },
 
   eventQuery: async function (event, parameters = {}) {
-    let sessionPath = sessionClient.sessionPath(projectID, sessionID);
+    let sessionPath = sessionClient.sessionPath(projectID, sessionID + userID);
     const request = {
       session: sessionPath,
       queryInput: {
         event: {
           name: event,
           parameters: structjson.jsonToStructProto(parameters),
-          languageCode: languageCode
+          languageCode: languageCode,
         },
       },
     };
