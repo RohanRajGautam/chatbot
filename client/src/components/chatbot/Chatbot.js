@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import Message from './Message';
+import Message from './Message';
 // import Card from './Card';
 
 
@@ -41,6 +41,16 @@ const Chatbot = () => {
     }
   }
 
+  renderMessages(stateMessages) {
+    if(stateMessages) {
+      return stateMessages.map((message, i) => {
+        return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
+      })
+    } else {
+      return null;
+    }
+  }
+
   return (
     <div style={{ height: 400, width: 400, float: 'right' }}>
         <div
@@ -52,6 +62,7 @@ const Chatbot = () => {
         }}
         >
         <h2>Chatbot</h2>
+        {renderMessages(messages)}
         <input type='text' />
         </div>
     </div>
