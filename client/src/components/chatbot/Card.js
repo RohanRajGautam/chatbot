@@ -1,27 +1,19 @@
 import React from 'react';
 
 const Card = (props) => (
-  <div style={{ float: 'left', width: 100, marginRight: 20 }}>
-    <div className='card' style={{ paddingTop: 10 }}>
-      <div
-        className='card-image'
-        style={{ width: 50, height: 50, margin: '0 auto' }}
-      >
-        <img
-          alt={props.payload.fields.header.stringValue}
-          src={props.payload.fields.image.stringValue}
-        />
+  <div style={{ height: 270, paddingRight: 30, float: 'left' }}>
+    <div className='card'>
+      <div className='card-image' style={{ width: 240 }}>
+        <img alt={props.payload.header} src={props.payload.image} />
+        <span className='card-title'>{props.payload.header}</span>
       </div>
-      <div
-        className='card-content'
-        style={{ fontSize: 15, textAlign: 'center' }}
-      >
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href={props.payload.fields.link.stringValue}
-        >
-          {props.payload.fields.description.stringValue}
+      <div className='card-content'>
+        {props.payload.description}
+        {/* <p> <a href="/">{props.payload.price}</a></p> */}
+      </div>
+      <div className='card-action'>
+        <a target='_blank' rel='noopener noreferrer' href={props.payload.link}>
+          GET NOW
         </a>
       </div>
     </div>
