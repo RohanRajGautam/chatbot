@@ -62,4 +62,5 @@ body {
 .me {
   border-top-right-radius: 0;
   background-color: #816fea;
+  margin-right: auto;
 }

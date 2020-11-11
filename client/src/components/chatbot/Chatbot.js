@@ -134,7 +134,7 @@ class Chatbot extends Component {
 
   // RENDER FUNCTIONS
   renderCards(cards) {
-    return cards.map((card, i) => <Card key={i} payload={card} />);
+    return cards.map((card, i) => <Card key={i} payload={card.structValue} />);
   }
 
   renderOneMessage(message, i) {
